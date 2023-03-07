@@ -264,6 +264,29 @@ void CTaskBarDlg::ShowInfo(CDC* pDC)
 #endif
 }
 
+CString GetWeek()
+{
+    CTime tm = CTime::GetCurrentTime();
+    int iYear = tm.GetYear();
+    CTimeSpan ts = tm - CTime(iYear, 1, 1, 0, 0, 0);
+    int iDays = ts.GetDays();
+    int iFirstWeekDay = CTime(iYear, 1, 1, 0, 0, 0).GetDayOfWeek();
+    int iDayCut = 8 - iFirstWeekDay;
+    int iWeek = 0;
+    if (iDays < iDayCut)
+    {
+        iWeek = 1;
+    }
+    else
+    {
+        iWeek = (iDays - iDayCut) / 7 + 2;
+    }
+
+    CString str;
+    str.Format(L" w%02d", iWeek);
+    return str;
+}
+
 void CTaskBarDlg::DrawDisplayItem(IDrawCommon& drawer, DisplayItem type, CRect rect, int label_width, bool vertical)
 {
     m_item_rects[type] = rect;
@@ -401,6 +424,7 @@ void CTaskBarDlg::DrawDisplayItem(IDrawCommon& drawer, DisplayItem type, CRect r
         else
         {
             str_value.Format(format_str, str_total_speed.GetString());
+            str_value += GetWeek();
         }
     }
 
@@ -987,16 +1011,16 @@ void CTaskBarDlg::CalculateWindowSize()
     if (theApp.m_taskbar_data.speed_short_mode)
     {
         if (hide_unit)
-            sample_str.Format(_T("%s."), digits.c_str());
+            sample_str.Format(_T("%s. w01"), digits.c_str());
         else
-            sample_str.Format(_T("%s.M/s"), digits.c_str());
+            sample_str.Format(_T("%s.M/s w01"), digits.c_str());
     }
     else
     {
         if (hide_unit)
-            sample_str.Format(_T("%s.8"), digits.c_str());
+            sample_str.Format(_T("%s.8 w01"), digits.c_str());
         else
-            sample_str.Format(_T("%s.8MB/s"), digits.c_str());
+            sample_str.Format(_T("%s.8MB/s w01"), digits.c_str());
     }
     if (!hide_unit && theApp.m_taskbar_data.separate_value_unit_with_space)
         sample_str += _T(' ');
