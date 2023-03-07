@@ -271,7 +271,7 @@ CString GetWeek()
     CTimeSpan ts = tm - CTime(iYear, 1, 1, 0, 0, 0);
     int iDays = ts.GetDays();
     int iFirstWeekDay = CTime(iYear, 1, 1, 0, 0, 0).GetDayOfWeek();
-    int iDayCut = 8 - iFirstWeekDay;
+    int iDayCut = 9 - iFirstWeekDay;
     int iWeek = 0;
     if (iDays < iDayCut)
     {
