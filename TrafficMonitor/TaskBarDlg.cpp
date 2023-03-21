@@ -283,7 +283,7 @@ CString GetWeek()
     }
 
     CString str;
-    str.Format(L" w%02d", iWeek);
+    str.Format(L" w%02d.%01d", iWeek, tm.GetDayOfWeek() - 1);
     return str;
 }
 
